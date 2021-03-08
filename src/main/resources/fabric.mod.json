@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "mbeykam2ms",
+  "version": "${version}",
+  "name": "Minecraft But Everytime You Kill A Mob 2 More Spawn",
+  "description": "dear lord",
+  "authors": [
+    "martinspp"
+  ],
+  "contributors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/mbeykam2ms/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "killmob2xspawn.killmob2xspawn"
+    ],
+    "client": [],
+    "server": []
+  },
+  "mixins": [
+    "mbeykam2ms.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.2",
+    "fabric": "*"
+  }
+}
