@@ -45,13 +45,13 @@ public abstract class LivingEntityInjector extends Entity {
 
                 for (int i = 0; i < config.spawnedEntitiesPerKill; i++) {
                     int random_x = RandomUtils.nextInt(0, range * 2);
-                    int random_y = RandomUtils.nextInt(0, range * 2);
+                    int random_z = RandomUtils.nextInt(0, range * 2);
                     EntityType<?> entityType = killmob2xspawn.entityTypes.get(RandomUtils.nextInt(0, killmob2xspawn.entityTypes.size()));
                     entityType.spawn((ServerWorld) this.world,
                             null,
                             null,
                             MinecraftClient.getInstance().player,
-                            new BlockPos(this.getPos().x + (random_x - range), this.getPos().y + (random_y - range), this.getZ() + 2),
+                            new BlockPos(this.getPos().x + (random_x - range), this.getPos().y + 2, this.getZ() + (random_z - range)),
                             SpawnReason.SPAWN_EGG,
                             true,
                             false);
