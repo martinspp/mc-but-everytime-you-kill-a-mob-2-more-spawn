@@ -28,6 +28,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Random;
 
+import static net.minecraft.world.Heightmap.Type.MOTION_BLOCKING;
+
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityInjector extends Entity {
     @Shadow public abstract void kill();
@@ -40,18 +42,19 @@ public abstract class LivingEntityInjector extends Entity {
 
     @Inject(method = "onDeath", at = @At("HEAD"))
     public void onDeath(DamageSource source, CallbackInfo ci) {
-        if(this.distanceTo(MinecraftClient.getInstance().player) <= config.distanceToActivate){
+        if(!world.isClient && this.distanceTo(MinecraftClient.getInstance().player) <= config.distanceToActivate){
             if(!config.mustBeKilledByPlayer || source.getAttacker() != null && source.getAttacker().getClass() == ServerPlayerEntity.class) {
 
                 for (int i = 0; i < config.spawnedEntitiesPerKill; i++) {
                     int random_x = RandomUtils.nextInt(0, range * 2);
                     int random_z = RandomUtils.nextInt(0, range * 2);
                     EntityType<?> entityType = killmob2xspawn.entityTypes.get(RandomUtils.nextInt(0, killmob2xspawn.entityTypes.size()));
+                    BlockPos blockPos = new BlockPos(this.getPos().x + (random_x - range), world.getTopY(MOTION_BLOCKING, random_z,random_x), this.getZ() + (random_z - range));
                     entityType.spawn((ServerWorld) this.world,
                             null,
                             null,
                             MinecraftClient.getInstance().player,
-                            new BlockPos(this.getPos().x + (random_x - range), this.getPos().y + 2, this.getZ() + (random_z - range)),
+                            blockPos,
                             SpawnReason.SPAWN_EGG,
                             true,
                             false);
